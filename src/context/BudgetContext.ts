@@ -4,6 +4,8 @@ import type { BudgetState } from "../reducers/budgetReducers";
 export type BudgetContextProps = {
   state: BudgetState;
   dispatch: React.Dispatch<BudgetActions>;
+  totalExpense: number;
+  remainigBudget: number;
 };
 export const BudgetContext = createContext<BudgetContextProps>(
   {} as BudgetContextProps
