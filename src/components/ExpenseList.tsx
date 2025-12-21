@@ -3,7 +3,7 @@ import { useBudget } from "../hooks/useBudget";
 import ExpenseDetail from "./ExpenseDetail";
 
 export default function ExpenseList() {
-  const { state, dispatch } = useBudget();
+  const { state } = useBudget();
   const isEmpty = useMemo(() => state.expenses.length === 0, [state.expenses]);
   return (
     <div className="mt-10">
