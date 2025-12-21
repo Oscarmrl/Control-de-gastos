@@ -22,7 +22,7 @@ export default function BudgetTraker() {
           text={`${percentage}% Gastado`}
         />
       </div>
-      <div className=" flex flex-col justify-center items-center gap-8">
+      <div className=" flex flex-col justify-center items-center gap-8 ">
         <button
           type="button"
           className=" bg-pink-600 w-full rounded-2xl p-2 text-white uppercase"
