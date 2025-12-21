@@ -63,7 +63,7 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
         <div className="bg-white shadow-lg p-10 w-full border-b border-b-gray-200 flex gap-5">
           <div className="">
             <img
-              src={`/icono_${categoryInfo.icon}.svg`}
+              src={`icono_${categoryInfo.icon}.svg`}
               alt={categoryInfo.name}
               className="w-20"
             />

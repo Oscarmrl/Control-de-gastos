@@ -14,21 +14,25 @@ export default function ExpenseForm() {
     expenseCategory: "",
     expenseDate: new Date(),
   });
+  const [error, setError] = useState("");
 
-  const { dispatch, state } = useBudget();
+  const [previousAmount, setPreviusAmount] = useState(0);
+
+  const { dispatch, state, remainigBudget } = useBudget();
 
   useEffect(() => {
     if (state.editingId) {
-      const editingExpense = state.expenses.filter(
+      const editingExpense = state.expenses.find(
         (currentExpense) => currentExpense.id === state.editingId
-      )[0];
+      );
 
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      setExpense(editingExpense);
+      if (editingExpense) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        setExpense(editingExpense);
+        setPreviusAmount(Number(editingExpense.expenseAmount));
+      }
     }
   }, [state.editingId, state.expenses]);
-
-  const [error, setError] = useState("");
 
   const handleChangeDate = (value: Value) => {
     setExpense({
@@ -54,11 +58,16 @@ export default function ExpenseForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    //validar todos los campos
     if (Object.values(expense).includes("")) {
       setError("Todos los campos son obligatorios");
       return;
     }
-
+    //validar que no sobregire el presupuesto
+    if (Number(expense.expenseAmount) - previousAmount > remainigBudget) {
+      setError("El gasto sobrepasa el presupuesto");
+      return;
+    }
     if (state.editingId) {
       dispatch({
         type: "update-expense",
@@ -79,7 +88,7 @@ export default function ExpenseForm() {
   return (
     <form action="" className=" space-y-5" onSubmit={handleSubmit}>
       <legend className=" uppercase text-center text-2xl font-black border-b-4 border-blue-500 py-2">
-        Nuevo Gasto
+        {state.editingId ? "Guardar cambios" : "Nuevo Gasto"}
       </legend>
       {error && <ErrorMessage>{error}</ErrorMessage>}
       <div className="flex flex-col gap-2">
@@ -142,7 +151,7 @@ export default function ExpenseForm() {
       <input
         type="submit"
         className=" bg-blue-600 cursor-pointer w-full rounded-lg p-2 text-white font-bold uppercase"
-        value={"Registrar Gasto"}
+        value={state.editingId ? "Guardar cambios" : "Registrar Gasto"}
       />
     </form>
   );
